@@ -1,0 +1,10 @@
+CREATE SCHEMA schema_bonsai
+CREATE TABLE schema_bonsai.bonsai
+(
+    id UUID primary key not null,
+    name VARCHAR(100),
+    species VARCHAR(100),
+    acquisition_date DATE,
+    acquisition_age INT,
+    status VARCHAR(50)
+);
