@@ -1,23 +1,21 @@
-package fr.bonsai;
+package fr.bonsai.exposition;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.UUID;
 
-@Entity(name = "bonsai")
-@Table(name = "bonsai")
-public class BonsaiEntity {
+public class BonsaiDTO {
 
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+
+
     private UUID id;
 
-    @Column(name = "name")
     private String name;
 
-    public BonsaiEntity(){
+    public BonsaiDTO(){
 
     }
 
@@ -36,4 +34,5 @@ public class BonsaiEntity {
     public void setName(String name) {
         this.name = name;
     }
+
 }
