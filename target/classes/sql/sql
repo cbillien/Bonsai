@@ -1,5 +1,5 @@
 CREATE SCHEMA schema_bonsai
-CREATE TABLE schema_bonsai.bonsai
+CREATE TABLE IF NOT EXISTS schema_bonsai.bonsai
 (
     id UUID primary key not null,
     name VARCHAR(100),
@@ -7,4 +7,36 @@ CREATE TABLE schema_bonsai.bonsai
     acquisition_date DATE,
     acquisition_age INT,
     status VARCHAR(50)
+);
+
+ALTER TABLE schema_bonsai.bonsai ADD COLUMN owner_id UUID REFERENCES owner(id);
+
+
+
+CREATE TABLE IF NOT EXISTS  owner (
+    id UUID PRIMARY KEY NOT NULL,
+    name VARCHAR(100)
+);
+
+
+CREATE TABLE IF NOT EXISTS watering (
+    id UUID PRIMARY KEY,
+    watering_date DATE,
+    bonsai_id UUID,
+    FOREIGN KEY (bonsai_id) REFERENCES Bonsai(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS repotting (
+    id UUID PRIMARY KEY,
+    repotting_date DATE,
+    bonsai_id UUID,
+    FOREIGN KEY (bonsai_id) REFERENCES Bonsai(id)
+);
+
+CREATE TABLE IF NOT EXISTS pruning (
+    id UUID PRIMARY KEY,
+    pruning_date DATE,
+    bonsai_id UUID,
+    FOREIGN KEY (bonsai_id) REFERENCES Bonsai(id)
 );

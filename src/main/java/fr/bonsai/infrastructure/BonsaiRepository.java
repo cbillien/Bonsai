@@ -2,15 +2,15 @@ package fr.bonsai.infrastructure;
 
 import fr.bonsai.BonsaiMapper;
 import fr.bonsai.domain.model.Bonsai;
+import fr.commons.BonsaiDao;
+import fr.commons.BonsaiEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -22,12 +22,12 @@ public class BonsaiRepository {
         this.bonsaiDao = bonsaiDao;
     }
 
-    @GetMapping
+
     public List<BonsaiEntity> helloWorld() {
         return bonsaiDao.findAll();
     }
 
-    @GetMapping("/{uuid}")
+
     public Bonsai findById(@PathVariable("uuid") UUID uuid ){
         Optional <BonsaiEntity> res = bonsaiDao.findById(uuid);
         if(res.isPresent()){
@@ -41,13 +41,33 @@ public class BonsaiRepository {
 
     }
 
+    public List<Bonsai> findAll(){
+        List<BonsaiEntity> res = bonsaiDao.findAll();
+        List<Bonsai> collect = res.stream()
+                .map(BonsaiEntity -> BonsaiMapper.EntityToBonsai(BonsaiEntity))
+                .collect(Collectors.toList());
 
-    @PostMapping
+        return collect;
+    }
+
+
+
     public Bonsai create (@RequestBody BonsaiEntity bonsai) {
         BonsaiEntity res = bonsaiDao.save(bonsai);
         Bonsai resultat = BonsaiMapper.EntityToBonsai(res);
         return resultat;
 
     }
+
+
+    public void delete(UUID id) {
+        bonsaiDao.deleteById(id);
+    }
+
+
+    public Bonsai update(Bonsai bonsai) {
+        return BonsaiMapper.EntityToBonsai(bonsaiDao.save(BonsaiMapper.BonsaiToEntity(bonsai)));
+    }
+
 
 }

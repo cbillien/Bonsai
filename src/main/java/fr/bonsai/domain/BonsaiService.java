@@ -2,15 +2,14 @@ package fr.bonsai.domain;
 
 
 import fr.bonsai.domain.model.Bonsai;
-import fr.bonsai.infrastructure.BonsaiEntity;
+import fr.commons.BonsaiEntity;
 import fr.bonsai.infrastructure.BonsaiRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,13 +23,36 @@ public class BonsaiService {
     }
 
 
-    @GetMapping("/{uuid}")
+
     public Bonsai findById(@PathVariable("uuid") UUID uuid){
         return bonsaiRepository.findById(uuid);
 }
 
-    @PostMapping
+
     public Bonsai create (@RequestBody BonsaiEntity bonsai){
         return bonsaiRepository.create(bonsai);
+    }
+
+    public List<Bonsai> findAll(){
+        return bonsaiRepository.findAll();
+    }
+
+
+
+    public void delete(UUID id) {
+        bonsaiRepository.delete(id);
+    }
+
+
+    public Optional<Bonsai> update(UUID id, Bonsai updatedBonsai) {
+        Optional<Bonsai> bonsai = Optional.ofNullable(bonsaiRepository.findById(id));
+        if (bonsai.isPresent()) {
+            bonsai.get().setName(updatedBonsai.getName());
+            bonsai.get().setSpecies(updatedBonsai.getSpecies());
+            bonsai.get().setAcquisition_date(updatedBonsai.getAcquisition_date());
+            bonsai.get().setAcquisition_age(updatedBonsai.getAcquisition_age());
+            return Optional.of(bonsaiRepository.update(bonsai.get()));
+        }
+        return bonsai;
     }
 }

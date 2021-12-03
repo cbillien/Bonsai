@@ -3,10 +3,13 @@ package fr.bonsai.exposition;
 import fr.bonsai.BonsaiMapper;
 import fr.bonsai.domain.BonsaiService;
 import fr.bonsai.domain.model.Bonsai;
-import fr.bonsai.infrastructure.BonsaiEntity;
+import fr.commons.BonsaiEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +36,21 @@ public class BonsaiController {
     }
 
 
+    @GetMapping
+    public List<BonsaiDTO> findAll() {
+        List<Bonsai> bonsais = bonsaiService.findAll();
+        List<BonsaiDTO> dto = new ArrayList<>();
+
+        for (int i = 0; i < bonsais.size(); i++) {
+            Bonsai bonsai = bonsais.get(i);
+            BonsaiDTO bonsaiDTO = BonsaiMapper.BonsaiToDTO(bonsai);
+            dto.add(bonsaiDTO);
+        }
+
+        return dto;
+    }
+
+
     @PostMapping
     public ResponseEntity<BonsaiDTO> create(@RequestBody BonsaiEntity bonsai) {
         Bonsai bonsaiTemp = bonsaiService.create(bonsai);
@@ -42,8 +60,16 @@ public class BonsaiController {
         return ResponseEntity.created(null).body(resultat);
     }
 
-    // patching
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id) {
+        bonsaiService.delete(id);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<BonsaiDTO> update(@PathVariable UUID id, @RequestBody BonsaiDTO updatedBonsai) {
+        return bonsaiService.update(id, BonsaiMapper.DtoToBonsai(updatedBonsai)).map(b -> ResponseEntity.ok(BonsaiMapper.BonsaiToDTO(b))).orElse(ResponseEntity.notFound().build());
+    }
 
 
 }

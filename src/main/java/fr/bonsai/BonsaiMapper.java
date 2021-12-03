@@ -2,7 +2,7 @@ package fr.bonsai;
 
 import fr.bonsai.domain.model.Bonsai;
 import fr.bonsai.exposition.BonsaiDTO;
-import fr.bonsai.infrastructure.BonsaiEntity;
+import fr.commons.BonsaiEntity;
 
 public class BonsaiMapper {
 
@@ -19,6 +19,14 @@ public class BonsaiMapper {
         Bonsai bonsaiConverted = new Bonsai();
         bonsaiConverted.setId(bonsaiEntity.getId());
         bonsaiConverted.setName(bonsaiEntity.getName());
+        return bonsaiConverted;
+
+    }
+
+    public static BonsaiEntity BonsaiToEntity(Bonsai Bonsai){
+        BonsaiEntity bonsaiConverted = new BonsaiEntity();
+        bonsaiConverted.setId(Bonsai.getId());
+        bonsaiConverted.setName(Bonsai.getName());
         return bonsaiConverted;
 
     }
