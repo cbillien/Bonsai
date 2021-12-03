@@ -2,6 +2,7 @@ package fr.bonsai.exposition;
 
 import fr.bonsai.BonsaiMapper;
 import fr.bonsai.domain.BonsaiService;
+import fr.bonsai.domain.Watering;
 import fr.bonsai.domain.model.Bonsai;
 import fr.commons.BonsaiEntity;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,7 @@ public class BonsaiController {
     }
 
 
+
     @PostMapping
     public ResponseEntity<BonsaiDTO> create(@RequestBody BonsaiEntity bonsai) {
         Bonsai bonsaiTemp = bonsaiService.create(bonsai);
@@ -65,6 +67,8 @@ public class BonsaiController {
     public void delete(@PathVariable UUID id) {
         bonsaiService.delete(id);
     }
+
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<BonsaiDTO> update(@PathVariable UUID id, @RequestBody BonsaiDTO updatedBonsai) {
