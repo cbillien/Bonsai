@@ -20,7 +20,7 @@ public class WateringEntity {
     @Column(name = "watering_date")
     private Date watering_date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bonsai_id")
     private BonsaiEntity bonsai;
 

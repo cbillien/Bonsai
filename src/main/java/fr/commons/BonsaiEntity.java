@@ -4,6 +4,7 @@ package fr.commons;
 import fr.bonsai.domain.Pruning;
 import fr.bonsai.domain.Repotting;
 import fr.bonsai.domain.Watering;
+import fr.owner.domain.Owner;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -38,8 +39,13 @@ public class BonsaiEntity {
     @OneToMany(targetEntity = RepottingEntity.class, mappedBy = "bonsai")
     private List<RepottingEntity> listRepotting;
 
-    @OneToMany(targetEntity = WateringEntity.class, mappedBy = "bonsai")
+    @OneToMany(targetEntity = WateringEntity.class, mappedBy = "bonsai",
+            fetch = FetchType.LAZY)
+
     private List<WateringEntity> listWatering;
+
+    @ManyToOne(targetEntity = OwnerEntity.class) @JoinColumn(name = "owner_id")
+    private OwnerEntity owner;
 
     public BonsaiEntity() {
     }
@@ -115,5 +121,14 @@ public class BonsaiEntity {
 
     public void setListWatering(List<WateringEntity> listWatering) {
         this.listWatering = listWatering;
+    }
+
+
+    public OwnerEntity getOwner() {
+        return owner;
+    }
+
+    public void setOwner(OwnerEntity owner) {
+        this.owner = owner;
     }
 }

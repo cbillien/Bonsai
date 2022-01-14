@@ -52,7 +52,6 @@ public class BonsaiController {
     }
 
 
-
     @PostMapping
     public ResponseEntity<BonsaiDTO> create(@RequestBody BonsaiEntity bonsai) {
         Bonsai bonsaiTemp = bonsaiService.create(bonsai);
@@ -69,11 +68,15 @@ public class BonsaiController {
     }
 
 
-
     @PatchMapping("/{id}")
     public ResponseEntity<BonsaiDTO> update(@PathVariable UUID id, @RequestBody BonsaiDTO updatedBonsai) {
         return bonsaiService.update(id, BonsaiMapper.DtoToBonsai(updatedBonsai)).map(b -> ResponseEntity.ok(BonsaiMapper.BonsaiToDTO(b))).orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<BonsaiDTO> updateStatus(@PathVariable UUID id, @RequestBody String status) {
 
+        return bonsaiService.updateStatus(id, status).map(b -> ResponseEntity.ok(BonsaiMapper.BonsaiToDTO(b)))
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

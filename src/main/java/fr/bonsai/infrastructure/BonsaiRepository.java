@@ -69,5 +69,8 @@ public class BonsaiRepository {
         return BonsaiMapper.EntityToBonsai(bonsaiDao.save(BonsaiMapper.BonsaiToEntity(bonsai)));
     }
 
+    public Bonsai updateStatus(Bonsai bonsai) {
+        return BonsaiMapper.EntityToBonsai(bonsaiDao.save(BonsaiMapper.BonsaiToEntity(bonsai)));
+    }
 
 }
